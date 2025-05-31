@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://brijpatel3508.github.io/WhatsAppDirectMsg/sitemap.xml
