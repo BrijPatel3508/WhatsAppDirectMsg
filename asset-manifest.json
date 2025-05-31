@@ -1,0 +1,10 @@
+{
+  "files": {
+    "main.js": "/WhatsAppDirectMsg/static/js/main.b370a91b.js",
+    "index.html": "/WhatsAppDirectMsg/index.html",
+    "main.b370a91b.js.map": "/WhatsAppDirectMsg/static/js/main.b370a91b.js.map"
+  },
+  "entrypoints": [
+    "static/js/main.b370a91b.js"
+  ]
+}
