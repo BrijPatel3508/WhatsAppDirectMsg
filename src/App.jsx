@@ -1,33 +1,52 @@
 import React, { useState } from "react";
 
-const gujaratiKeys = [
-  "અ", "આ", "ઇ", "ઈ", "ઉ", "ઊ", "ઋ", "એ", "ઐ", "ઓ", "ઔ",
-  "ક", "ખ", "ગ", "ઘ", "ઙ",
-  "ચ", "છ", "જ", "ઝ", "ઞ",
-  "ટ", "ઠ", "ડ", "ઢ", "ણ",
-  "ત", "થ", "દ", "ધ", "ન",
-  "પ", "ફ", "બ", "ભ", "મ",
-  "ય", "ર", "લ", "વ",
-  "શ", "ષ", "સ", "હ",
-  "ળ", "ક્ષ", "જ્ઞ",
-  "ા", "િ", "ી", "ુ", "ૂ", "ૃ", "ે", "ૈ", "ો", "ૌ",
-  "ં", "ઃ", "ઁ",
-  "૦", "૧", "૨", "૩", "૪", "૫", "૬", "૭", "૮", "૯",
-  " ", "←"
-];
+// Keyboard layouts
+const keyboardLayouts = {
+  gujarati: [
+    "અ", "આ", "ઇ", "ઈ", "ઉ", "ઊ", "ઋ", "એ", "ઐ", "ઓ", "ઔ",
+    "ક", "ખ", "ગ", "ઘ", "ઙ", "ચ", "છ", "જ", "ઝ", "ઞ",
+    "ટ", "ઠ", "ડ", "ઢ", "ણ", "ત", "થ", "દ", "ધ", "ન",
+    "પ", "ફ", "બ", "ભ", "મ", "ય", "ર", "લ", "વ",
+    "શ", "ષ", "સ", "હ", "ળ", "ક્ષ", "જ્ઞ",
+    "ા", "િ", "ી", "ુ", "ૂ", "ૃ", "ે", "ૈ", "ો", "ૌ",
+    "ં", "ઃ", "ઁ", "૦", "૧", "૨", "૩", "૪", "૫", "૬", "૭", "૮", "૯",
+    " ", "←"
+  ],
+  hindi: [
+    "अ", "आ", "इ", "ई", "उ", "ऊ", "ऋ", "ए", "ऐ", "ओ", "औ",
+    "क", "ख", "ग", "घ", "ङ", "च", "छ", "ज", "झ", "ञ",
+    "ट", "ठ", "ड", "ढ", "ण", "त", "थ", "द", "ध", "न",
+    "प", "फ", "ब", "भ", "म", "य", "र", "ल", "व",
+    "श", "ष", "स", "ह", "ळ", "क्ष", "ज्ञ",
+    "ा", "ि", "ी", "ु", "ू", "ृ", "े", "ै", "ो", "ौ",
+    "ं", "ः", "ँ", "०", "१", "२", "३", "४", "५", "६", "७", "८", "९",
+    " ", "←"
+  ],
+  english: [
+    "A", "B", "C", "D", "E", "F", "G", "H", "I", "J",
+    "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T",
+    "U", "V", "W", "X", "Y", "Z",
+    "a", "b", "c", "d", "e", "f", "g", "h", "i", "j",
+    "k", "l", "m", "n", "o", "p", "q", "r", "s", "t",
+    "u", "v", "w", "x", "y", "z",
+    "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+    ".", ",", "!", "?", "'", "\"", " ", "←"
+  ]
+};
 
 export default function App() {
   const [phone, setPhone] = useState("");
   const [message, setMessage] = useState("");
   const [countryCode, setCountryCode] = useState("+91");
   const [maxDigitsReached, setMaxDigitsReached] = useState(false);
+  const [keyboardLanguage, setKeyboardLanguage] = useState("gujarati");
 
   const maxDigitsMap = {
     "+91": 10,
     "+1": 10,
     "+44": 11,
     "+61": 9,
-    "+971": 9,
+    "+971": 9
   };
 
   const maxDigits = maxDigitsMap[countryCode] || 15;
@@ -46,25 +65,21 @@ export default function App() {
   const createLink = () => {
     const cleanPhone = phone.replace(/\D/g, "");
     const encodedMessage = encodeURIComponent(message);
-    const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-      navigator.userAgent
-    );
+    const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     const fullPhone = `${countryCode}${cleanPhone}`.replace(/\+/g, "");
 
-    if (isMobile) {
-      return `whatsapp://send?phone=${fullPhone}&text=${encodedMessage}`;
-    } else {
-      return `https://web.whatsapp.com/send?phone=${fullPhone}&text=${encodedMessage}`;
-    }
+    return isMobile
+      ? `whatsapp://send?phone=${fullPhone}&text=${encodedMessage}`
+      : `https://web.whatsapp.com/send?phone=${fullPhone}&text=${encodedMessage}`;
   };
 
-  const onGujaratiKeyClick = (key) => {
-    if (key === "←") {
-      setMessage((prev) => prev.slice(0, -1));
-    } else {
-      setMessage((prev) => prev + key);
-    }
+  const onKeyClick = (key) => {
+    setMessage((prev) =>
+      key === "←" ? prev.slice(0, -1) : prev + key
+    );
   };
+
+  const currentKeys = keyboardLayouts[keyboardLanguage];
 
   return (
     <>
@@ -158,8 +173,6 @@ export default function App() {
           color: red;
           margin-bottom: 10px;
         }
-
-        /* Responsive styles */
         @media (max-width: 767px) {
           .flex-wrapper {
             flex-direction: column;
@@ -235,17 +248,24 @@ export default function App() {
             </a>
           </div>
 
-          {/* Right side: Gujarati keyboard */}
+          {/* Right side */}
           <div className="right-side">
-            <div className="keyboard-title">Gujarati Keyboard</div>
+            <div className="keyboard-title">
+              Virtual Keyboard Language:
+              <select
+                style={{ marginLeft: "10px", fontSize: "16px" }}
+                value={keyboardLanguage}
+                onChange={(e) => setKeyboardLanguage(e.target.value)}
+              >
+                <option value="gujarati">Gujarati</option>
+                <option value="hindi">Hindi</option>
+                <option value="english">English</option>
+              </select>
+            </div>
+
             <div className="keyboard-keys">
-              {gujaratiKeys.map((key) => (
-                <button
-                  key={key}
-                  onClick={() => onGujaratiKeyClick(key)}
-                  type="button"
-                  title={key === "←" ? "Backspace" : key}
-                >
+              {currentKeys.map((key, index) => (
+                <button key={index} onClick={() => onKeyClick(key)} title={key === "←" ? "Backspace" : key}>
                   {key}
                 </button>
               ))}
