@@ -198,6 +198,9 @@ export default function App() {
           }
         }
       `}</style>
+    <div className="info-note">
+  🔒 <strong>Privacy Note:</strong> We never save or share your phone number or messages. All data stays in your browser.
+    </div>
 
       <div className="container">
         <h1>WhatsApp Message Sender</h1>
@@ -272,6 +275,14 @@ export default function App() {
             </div>
           </div>
         </div>
+        <footer style={{ textAlign: 'center', fontSize: '14px', marginTop: '30px', color: '#555' }}>
+            Built with ❤️ — This tool does not store your data. It's fully client-side and secure. <br />
+            Have questions or feedback? Contact me at{' '}
+            <a href="mailto:brijpatelbr@gmail.com" style={{ color: '#007bff', textDecoration: 'none' }}>
+                brijpatelbr@gmail.com
+            </a>
+        </footer>
+
       </div>
     </>
   );
